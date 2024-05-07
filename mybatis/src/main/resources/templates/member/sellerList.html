@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layout/default}">
+	
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/h1style.css}" />
+	</head>	
+	
+	<th:block layout:fragment="customContent">
+		<h1 th:text="${title}"></h1>
+		<table>
+			<thead>
+				<tr>					
+					<th>번호</th>
+					<th>판매자아이디</th>
+					<th>판매자이름</th>
+					<th>판매자이메일</th>
+					<th>상품코드</th>
+					<th>상품명</th>
+					<th>상품가격</th>					
+					<th>상품등록일자</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:unless="${sellerList != null}">
+					<td colspan="7">등록된 판매자가 없습니다.</td>			
+				</tr>
+				<th:block th:if="${sellerList != null}" th:each="l: ${sellerList}">
+					<th:block th:unless="${#lists.isEmpty(l.goodsList)}" th:each="gl, status: ${l.goodsList}">	
+						<tr>				
+							<td></td>
+							<td th:if="${status.first}" th:rowspan="${status.size}" th:text="${l.memberId}"></td>
+							<td th:if="${status.first}" th:rowspan="${status.size}" th:text="${l.memberName}"></td>
+							<td th:if="${status.first}" th:rowspan="${status.size}" th:text="${l.memberEmail}"></td>
+							<td th:text="${gl.goodsCode}"></td>
+							<td th:text="${gl.goodsName}"></td>
+							<td th:text="${gl.goodsPrice}"></td>
+							<td th:text="${gl.goodsRegDate}"></td>
+						</tr>
+					</th:block>
+					<th:block th:if="${#lists.isEmpty(l.goodsList)}">
+						<tr>
+							<td></td>
+							<td th:text="${l.memberId}"></td>
+							<td th:text="${l.memberName}"></td>
+							<td th:text="${l.memberEmail}"></td>
+							<td colspan="4">등록한 상품이 없습니다.</td>
+						</tr>
+					</th:block>
+				</th:block>
+			</tbody>
+		</table>
+	</th:block>
+	
+	<th:block layout:fragment="customJsFile">
+		<script th:src="@{/js/jquery-3.7.1.js}"></script>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script>
+			let cnt = 0;
+			$('tbody tr').each(function(){
+				$(this).children().eq(0).text(++cnt);
+			})
+		</script>
+	</th:block>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

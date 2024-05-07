@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layout/default}">
+	
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/h1style.css}" />
+	</head>	
+	
+	<th:block layout:fragment="customContent">
+		<h1 th:text="${title}"></h1>
+		<table>
+			<thead>
+				<tr>
+					<th>로그인번호</th>
+					<th>회원아이디</th>
+					<th>회원등급</th>
+					<th>회원이름</th>
+					<th>회원이메일</th>
+					<th>로그인일자</th>
+					<th>로그아웃일자</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:unless="${loginHistory != null}">
+					<td colspan="7">로그인한 이력이 없습니다.</td>
+				</tr>
+				<tr th:if="${loginHistory != null}" th:each="l : ${loginHistory}">
+					<td th:text="${l.loginNum}"></td>
+					<td th:text="${l.memberId}"></td>
+					<td th:text="${l.levelName}"></td>
+					<td th:text="${l.memberName}"></td>
+					<td th:text="${l.memberEmail}"></td>
+					<td th:text="${l.loginDate}"></td>
+					<td th:text="${l.logoutDate}"></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="7">
+						<a th:href="@{/member/loginHistory}">[맨처음으로]</a>
+						<a th:if="${currentPage > 1}" 
+						   th:href="@{/member/loginHistory(currentPage=${currentPage - 1})}">[이전]</a>
+						<span th:unless="${currentPage > 1}">[이전]</span>
+						<th:block th:each="num : ${#numbers.sequence(startPageNum, lastPageNum)}">
+							<a th:if="${num != currentPage}" 
+							   th:href="@{/member/loginHistory(currentPage=${num})}"
+							   th:text="|[${num}]|"></a>
+							<span th:unless="${num != currentPage}"
+								  th:text="|[${num}]|"></span>
+						</th:block>
+						<a th:if="${currentPage < lastPage}" 
+						   th:href="@{/member/loginHistory(currentPage=${currentPage + 1})}">[다음]</a>
+						<span th:unless="${currentPage < lastPage}">[다음]</span>
+						<a th:href="@{/member/loginHistory(currentPage=${lastPage})}">[맨마지막으로]</a>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</th:block>
+	
+	<th:block layout:fragment="customJsFile">
+		<script th:src="@{/js/jquery-3.7.1.js}"></script>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script>		
+			
+		</script>
+	</th:block>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

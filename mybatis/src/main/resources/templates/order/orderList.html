@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layout/default}">
+	
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/h1style.css}" />
+	</head>	
+	
+	<th:block layout:fragment="customContent">
+		<h1 th:text="${title}"></h1>
+		<table>
+			<thead>
+				<tr>
+					<th>주문번호</th>
+					<th>주문자아이디</th>
+					<th>주문자명</th>
+					<th>상품코드</th>
+					<th>상품명</th>
+					<th>상품가격</th>					
+					<th>구매수량</th>
+					<th>금액</th>
+					<th>구매일자</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:unless="${orderList != null}">
+					<tr>
+						<td colspan="9">주문한 내역이 없습니다.</td>
+					</tr>
+				</th:block>
+				<th:block th:if="${orderList != null}"
+						  th:each="l : ${orderList}">
+					<tr th:with="m=${l.memberInfo},g=${l.goodsInfo}">
+						<td th:text="${l.orderNum}"></td>
+						<td th:text="${l.orderId}"></td>
+						<td th:text="${m.memberName}"></td>
+						<td th:text="${g.goodsCode}"></td>
+						<td th:text="${g.goodsName}"></td>
+						<td th:text="|₩ ${#numbers.formatInteger(g.goodsPrice, 3, 'COMMA')}|"></td>
+						<td th:text="${l.orderAmount}"></td>
+						<td th:text="|₩ ${#numbers.formatInteger(l.orderTotal, 3, 'COMMA')}|"></td>
+						<td th:text="${l.orderRegDate}"></td>
+					</tr>	  
+				</th:block>
+			</tbody>
+		</table>
+	</th:block>
+	
+	<th:block layout:fragment="customJsFile">
+		<script th:src="@{/js/jquery-3.7.1.js}"></script>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script>		
+			
+		</script>
+	</th:block>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

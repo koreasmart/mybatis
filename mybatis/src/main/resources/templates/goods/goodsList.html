@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layout/default}">
+	
+	<head>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/h1style.css}" />
+	</head>	
+	
+	<th:block layout:fragment="customContent">
+		<h1 th:text="${title}"></h1>
+		<table>
+			<thead>
+				<tr>
+					<th>상품코드</th>
+					<th>상품명</th>
+					<th>상품가격</th>
+					<th>판매자아이디</th>
+					<th>상품등록일자</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:unless="${goodsList != null}">
+					<td colspan="5">등록된 상품이 없습니다.</td>
+				</tr>
+				<tr th:if="${goodsList != null}" th:each="l : ${goodsList}">
+					<td th:text="${l.goodsCode}"></td>
+					<td th:text="${l.goodsName}"></td>
+					<td th:text="|₩ ${#numbers.formatInteger(l.goodsPrice, 3,'COMMA')}|"></td>
+					<td th:text="${l.goodsSellerId}"></td>
+					<td th:text="${l.goodsRegDate}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</th:block>
+	
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
